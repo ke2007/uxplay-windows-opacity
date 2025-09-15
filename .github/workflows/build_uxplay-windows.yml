@@ -79,11 +79,15 @@ jobs:
           
           # Read patterns from the keep list (can include wildcards)
           $keepPatterns = @()
-          Get-Content $keepListFile | ForEach-Object {
-              $pattern = $_.Trim()
-              if ($pattern) {
-                  $keepPatterns += $pattern
+          if (Test-Path $keepListFile) {
+              Get-Content $keepListFile | ForEach-Object {
+                  $pattern = $_.Trim()
+                  if ($pattern) {
+                      $keepPatterns += $pattern
+                  }
               }
+          } else {
+              Write-Host "⚠️ Warning: $keepListFile not found, skipping pruning rules."
           }
       
           Write-Host "Total keep patterns: $($keepPatterns.Count)"
