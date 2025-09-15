@@ -74,8 +74,8 @@ jobs:
         # remove unnecessary DLLs so we get a smaller installer
       - name: Prune compilation artifact directory
         run: |
-          $artifactDir = "D:\a\uxplay-windows\uxplay-windows\UxPlay\build\artifact"
-          $keepListFile = "D:\a\uxplay-windows\uxplay-windows\dll-libs-list.txt"
+          $artifactDir = Join-Path $env:GITHUB_WORKSPACE "UxPlay\build\artifact"
+          $keepListFile = Join-Path $env:GITHUB_WORKSPACE "dll-libs-list.txt"
           
           # Read patterns from the keep list (can include wildcards)
           $keepPatterns = @()
