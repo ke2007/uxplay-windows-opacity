@@ -132,11 +132,19 @@ jobs:
           .\venv\Scripts\Activate.ps1
           python -m pip install --upgrade pip
           pip install pyinstaller pystray
-
           pyinstaller --noconsole --onedir --clean --name uxplay-windows --icon=icon.ico tray.py
 
-          cp -r D:\a\uxplay-windows\uxplay-windows\UxPlay\build\artifact\* D:\a\uxplay-windows\uxplay-windows\dist\uxplay-windows\_internal
-          cp D:\a\uxplay-windows\uxplay-windows\icon.ico D:\a\uxplay-windows\uxplay-windows\dist\uxplay-windows\_internal
+          $artifactDir = Join-Path $env:GITHUB_WORKSPACE "UxPlay\build\artifact"
+          $distDir = Join-Path $env:GITHUB_WORKSPACE "dist\uxplay-windows\_internal"
+
+          if (Test-Path $artifactDir) {
+              Copy-Item -Path (Join-Path $artifactDir "*") -Destination $distDir -Recurse -Force
+          } else {
+              Write-Host "⚠️ Warning: Artifact directory $artifactDir not found, skipping copy."
+          }
+
+          Copy-Item (Join-Path $env:GITHUB_WORKSPACE "icon.ico") $distDir -Force
+        shell: pwsh
           
       - name: compile the installer with inno setup
         run: .$(Join-Path -Path ${env:PROGRAMFILES(X86)} -ChildPath 'Inno Setup 6\\ISCC.exe') $(Join-Path -Path $(Get-Location) -ChildPath "script.iss")
