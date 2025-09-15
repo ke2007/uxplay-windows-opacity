@@ -4,6 +4,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
+#define MyWorkDir GetEnv("GITHUB_WORKSPACE")
 AppId={{02621F03-7F92-4E33-AA17-017F79B31DCF}
 AppName=uxplay-windows
 AppVersion=1.72.1-3
@@ -17,11 +18,10 @@ DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputBaseFilename=uxplay-windows
-SetupIconFile=D:\a\uxplay-windows\uxplay-windows\icon.ico
+SetupIconFile={#MyWorkDir}\icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
-
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
@@ -29,8 +29,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\a\uxplay-windows\uxplay-windows\dist\uxplay-windows\uxplay-windows.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\a\uxplay-windows\uxplay-windows\dist\uxplay-windows\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MyWorkDir}\dist\uxplay-windows\uxplay-windows.exe"; DestDir: "{app}";
+Source: "{#MyWorkDir}\dist\uxplay-windows\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
